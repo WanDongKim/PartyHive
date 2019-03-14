@@ -38,7 +38,54 @@ namespace PartyHive.Controllers
             {
                 if(loginViewModel != null)
                 {
-
+                    switch (loginViewModel.UserType)
+                    {
+                        case "Customer":
+                            User user = (User)FindUsersByEmail(loginViewModel.Email, loginViewModel.UserType);
+                            if (user == null)
+                            {
+                                ModelState.AddModelError("LoginError", "Email address/Password does not exist");
+                                return View();
+                            }
+                            if (user.Password.Equals(EncryptionPassword(loginViewModel.Password)))
+                            {
+                                HttpContext.Session.SetInt32("token", (int)user.Id);
+                                HttpContext.Session.SetString("user", user.FirstName + " " + user.LastName);
+                                HttpContext.Session.SetString("userType", loginViewModel.UserType);
+                                SessionHelper.SetObjectAsJson(HttpContext.Session, "userSessionList", user);
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                //TODO: exception password and email doesnt match
+                                ModelState.AddModelError("LoginError", "Email address/Password does not exist");
+                                return View();
+                            }
+                        case "Host":
+                            Host host = (Host)FindUsersByEmail(loginViewModel.Email, loginViewModel.UserType);
+                            if (host == null)
+                            {
+                                ModelState.AddModelError("LoginError", "Email address/Password does not exist");
+                                return View();
+                            }
+                            if (host.Password.Equals(EncryptionPassword(loginViewModel.Password)))
+                            {
+                                HttpContext.Session.SetInt32("token", (int)host.Id);
+                                HttpContext.Session.SetString("user", host.FirstName + " " + host.LastName);
+                                HttpContext.Session.SetString("userType", loginViewModel.UserType);
+                                SessionHelper.SetObjectAsJson(HttpContext.Session, "userSessionList", host);
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                //TODO: exception password and email doesnt match
+                                ModelState.AddModelError("LoginError", "Email address/Password does not exist");
+                                return View();
+                            }
+                        default:
+                            ViewData["Message"] = "Choose your user type";
+                            break;
+                    }
                 }
             }
             else
@@ -122,6 +169,23 @@ namespace PartyHive.Controllers
             else
             {
                 return false;
+            }
+        }
+        private object FindUsersByEmail(string email, string type)
+        {
+            try
+            {
+                if(type == "Host")
+                {
+                    return _context.Host.SingleOrDefault(h => h.Email.Equals(email));
+                }
+                else
+                {
+                    return _context.User.SingleOrDefault(u => u.Email.Equals(email));
+                }
+            }catch(Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
         private string EncryptionPassword(string password)
