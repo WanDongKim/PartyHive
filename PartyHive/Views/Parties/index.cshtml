@@ -1,7 +1,43 @@
-﻿
+﻿@model IEnumerable<PartyHive.Models.Party>
 @{
     ViewData["Title"] = "index";
 }
 @* TODO: This page should show the lsit of parties *@
 <h2>Index of Parties</h2>
 
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Parties">View Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Parties">Edit Party</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-controller="Parties">Delete Party</a>
+
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

@@ -115,6 +115,11 @@ namespace PartyHive.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Price).HasColumnType("numeric(18, 2)");
 
                 entity.Property(e => e.TargetAudience)
