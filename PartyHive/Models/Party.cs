@@ -19,6 +19,7 @@ namespace PartyHive.Models
         public string MaxEnrollment { get; set; }
         public bool IsActivated { get; set; }
         public int HostId { get; set; }
+        public string Name { get; set; }
 
         public Host Host { get; set; }
         public ICollection<Booking> Booking { get; set; }

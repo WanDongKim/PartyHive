@@ -18,7 +18,8 @@ namespace PartyHive.Controllers
         // parties/index
         public IActionResult Index()
         {
-            IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).ToArray();
+            // print only active parties
+            IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Where(x =>x.IsActivated.Equals(true)).ToArray();
             return View(allParties);
         }
         // parties/detail/
