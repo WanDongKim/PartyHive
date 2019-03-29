@@ -1,0 +1,32 @@
+﻿@model PartyHive.Models.Party
+@{
+    ViewData["Title"] = "Inactive";
+}
+
+<h2>Inactive</h2>
+
+<form asp-action="Inactive">
+    <div class="form-group">
+        @if (Model.IsActivated == true)
+        {
+            <p>Would you like to inactive this party?</p>
+            <small>This activity will disappear on party list</small>
+
+        }
+        else
+        {
+            <p>Would you like to active this party?</p>
+            <small>This activity will appear on party list</small>
+        }
+    </div>
+    <div class="form-group">
+        @if (Model.IsActivated == true)
+        {
+            <input type="submit" value="Inactive" class="btn btn-danger" />
+        }
+        else
+        {
+            <input type="submit" value="Active" class="btn btn-danger" />
+        }
+    </div>
+</form>
