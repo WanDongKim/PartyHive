@@ -22,6 +22,12 @@ namespace PartyHive.Controllers
             IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Where(x =>x.IsActivated.Equals(true)).ToArray();
             return View(allParties);
         }
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
         // parties/detail/
         public async Task<IActionResult> Details(int? id)
         {

@@ -35,25 +35,23 @@
                         <a class="navbar-brand " asp-controller="Home" asp-action="Index" style="padding:10px;"><img class="d-inline-block align-top" src="~/images/logo.png" width="30" height="30" /></a>
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
                         </button>
                         <!-- Nav -->
                         <div class="navbar-collapse collapse">
-                            <ul class="nav nav-pills nav-justified" style="padding-top:5px;">
+                            <ul class="nav nav-pills nav-justified" style="padding-top:63px; display: block;
+    margin-right: 50px;">
                                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                                 <li><a asp-controller="Parties" asp-action="Index">Party</a></li>
                                 @*TODO: Login and Register li has to go align-right*@
                                 @if (user == null)
                                 {
-                                    <li class="nav-item"><a class="nav-link active" asp-controller="Accounts" asp-action="Login">Login</a></li>
-                                    <li class="nav-item"> <a class="nav-link active" asp-area="" asp-controller="Accounts" asp-action="Register">Register </a></li>
+                                    <li><a class="nav-link active" asp-controller="Accounts" asp-action="Login">Login</a></li>
+                                    <li><a class="nav-link active" asp-area="" asp-controller="Accounts" asp-action="Register">Register </a></li>
                                 }
                                 else
                                 {
-                                    <li class="nav-item"> <a class="nav-link active" asp-area="">Welcome, @user </a></li>
-                                    <li class="nav-item"> <a class="nav-link active" asp-area="" asp-controller="Accounts" asp-action="Logout">Logout</a></li>
+                                    <li><a class="nav-link active" asp-area="">Welcome, @user </a></li>
+                                    <li><a class="nav-link active" asp-area="" asp-controller="Accounts" asp-action="Logout">Logout</a></li>
                                 }
                             </ul>
                         </div>
@@ -62,17 +60,6 @@
             </div>
         </div>
     </header>
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
-
->>>>>>> 174e84e521eed155561c02b504dc17e9fd39c1ec
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
