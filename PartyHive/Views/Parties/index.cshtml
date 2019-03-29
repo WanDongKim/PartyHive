@@ -30,7 +30,6 @@
     <div id="preloader">
         <div class="dorne-load"></div>
     </div>
-<<<<<<< HEAD
         <!-- ***** Header Area End ***** -->
         <!-- ***** Breadcumb Area Start ***** -->
         <!-- ***** Breadcumb Area End ***** -->
@@ -115,93 +114,4 @@
         <!-- Active JS -->
         <script src="js/active.js"></script>
     </body>
-=======
-    <!-- ***** Header Area End ***** -->
-    <!-- ***** Breadcumb Area Start ***** -->
-    <!-- ***** Breadcumb Area End ***** -->
-    <!-- ***** Listing Destinations Area Start ***** -->
-    <section class="dorne-listing-destinations-area section-padding-100-50">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-heading dark text-center">
-                        <span></span>
-                        <h4>Featured destinations</h4>
-                        <p>Editor’s pick</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- Single Features Area -->
-                @foreach (var item in Model)
-                {
-
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="single-features-area mb-50">
-                            <img src=@Html.DisplayFor(modelItem => item.Address) alt="">
-                            <!-- Price -->
-                            <div class="price-start">
-                                <p>FROM  @Html.DisplayFor(modelItem => item.Price)</p>
-                            </div>
-                            <div class="feature-content d-flex align-items-center justify-content-between">
-                                <div class="feature-title">
-                                    <h5> @Html.DisplayFor(modelItem => item.Name)</h5>
-                                    <p>  @Html.DisplayFor(modelItem => item.Description)</p>
-                                </div>
-                                <div class="feature-favourite">
-                                    <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Parties">View Details</a> |
-                            <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Parties">Edit Party</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id" asp-controller="Parties">Delete Party</a>
-                        </div>
-                    </div>
-                }
-
-
-            </div>
-        </div>
-    </section>
-    <!-- ***** Listing Destinations Area End ***** -->
-    <!-- ****** Footer Area Start ****** -->
-    <footer class="dorne-footer-area">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 d-md-flex align-items-center justify-content-between">
-                    <div class="footer-text">
-                        <p>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p>
-                    </div>
-                    <div class="footer-social-btns">
-                        <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
-                        <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
-                        <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- ****** Footer Area End ****** -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap-4 js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/others/plugins.js"></script>
-    <!-- Active JS -->
-    <script src="js/active.js"></script>
-</body>
->>>>>>> 174e84e521eed155561c02b504dc17e9fd39c1ec
-
-
-
 
