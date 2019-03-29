@@ -22,12 +22,54 @@ namespace PartyHive.Controllers
             IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Where(x =>x.IsActivated.Equals(true)).ToArray();
             return View(allParties);
         }
-
-        public IActionResult Edit()
+        // parties/edit/id
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
-        }
+            if(id == null)
+            {
+                NotFound();
+            }
+            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync();
 
+            if(party == null)
+            {
+                NotFound();
+            }
+
+            return View(party);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Price, Address, Description, MaxEnrollment, IsActivated, Name")]Party editedParty)
+        {
+            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
+
+            party.Price = editedParty.Price;
+            party.Address = editedParty.Address;
+            party.Description = editedParty.Description;
+            party.MaxEnrollment = editedParty.MaxEnrollment;
+            party.IsActivated = editedParty.IsActivated;
+            party.Name = editedParty.Name;
+            
+            if(id != editedParty.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Party.Update(party);
+                    await _context.SaveChangesAsync();
+                }
+
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
+        }
         // parties/detail/
         public async Task<IActionResult> Details(int? id)
         {
