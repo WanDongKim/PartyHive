@@ -1,4 +1,4 @@
-﻿
+﻿@model PartyHive.Models.Party
 @{
     ViewData["Title"] = "Edit";
 }
@@ -21,31 +21,44 @@
 <body>
 
     <div class="row">
-        
-        <div class="dorne-add-listings-btn" style="padding-top: 98px;">
-            <a href="#" class="btn dorne-btn">View Parties</a>
-        </div>
         <div class="contact-form contact-form-widget mt-50">
             <h6>Add a Party</h6>
-            <form action="#">
+            <form asp-action="Add" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                 <div class="row">
                     <div class="col-12">
-                        <input type="text" name="name" class="form-control" placeholder="Party Title">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="col-12">
-                        <input type="datetime" name="name" class="form-control" placeholder="Date">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="col-12">
-                        <input type="tel" name="name" class="form-control" placeholder="Phone Number">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <div class="col-12">
-                        <input type="email" name="email" class="form-control" placeholder="Contact Email Address">
+                        <label asp-for="TargetAudience" class="control-label"></label>
+                        <input asp-for="TargetAudience" class="form-control" />
+                        <span asp-validation-for="TargetAudience" class="text-danger"></span>
                     </div>
                     <div class="col-12">
-                        <textarea name="message" class="form-control" id="Message" cols="30" rows="10" placeholder="Description"></textarea>
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
                     <div class="col-12">
-                        <button type="submit" class="btn dorne-btn">Send</button>
+                        <label asp-for="MaxEnrollment" class="control-label"></label>
+                        <input asp-for="MaxEnrollment" class="form-control" />
+                        <span asp-validation-for="MaxEnrollment" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn dorne-btn">Add party</button>
                     </div>
                 </div>
             </form>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PartyHive.Models;
@@ -22,6 +23,30 @@ namespace PartyHive.Controllers
             IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Where(x => x.IsActivated.Equals(true)).ToArray();
             return View(allParties);
         }
+
+        public IActionResult Add()
+        {
+            Party party = new Party();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add([Bind("Id, Name, Description, Price, TargetAudience, Address, MaxEnrollment")]Party party)
+        {
+            party.HostId = (int)HttpContext.Session.GetInt32("token");
+            Host host = _context.Host.Include(c => c.Party).Where(m => m.Id.Equals(party.HostId)).FirstOrDefault();
+            party.Host = host;
+            party.CurrentEnrollment = 0.ToString();
+
+            if (ModelState.IsValid)
+            {
+                _context.Party.Add(party);
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Hosts", new { id = party.HostId});
+        }
         // parties/edit/id
         public async Task<IActionResult> Edit(int id)
         {
@@ -29,7 +54,7 @@ namespace PartyHive.Controllers
             {
                 NotFound();
             }
-            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync();
+            var party = await _context.Party.Include(c => c.Host).Where(m => m.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (party == null)
             {
@@ -131,7 +156,7 @@ namespace PartyHive.Controllers
                 throw;
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Hosts",new { id=party.HostId });
         }
     }
 }

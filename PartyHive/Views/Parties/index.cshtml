@@ -79,7 +79,7 @@
                                     <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
                             </div>
-                            <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Parties">View Details</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Parties">View Details</a>
                             @{
                                 if (!user.Equals("") && sessionToken == item.HostId)
                                 {

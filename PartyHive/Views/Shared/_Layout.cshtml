@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{
-    var loginEmail = HttpContextAccessor.HttpContext.Session.GetString("token");
+    var token = HttpContextAccessor.HttpContext.Session.GetInt32("token");
     var user = HttpContextAccessor.HttpContext.Session.GetString("user");
     var userType = HttpContextAccessor.HttpContext.Session.GetString("userType");
 }
@@ -41,7 +41,14 @@
                             <ul class="nav nav-pills nav-justified" style="padding-top:63px; display: block;
     margin-right: 50px;">
                                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                                <li><a asp-controller="Parties" asp-action="Index">Party</a></li>
+                                @if (userType != "Host")
+                                {
+                                    <li><a asp-controller="Parties" asp-action="Index">Party</a></li>
+
+                                }
+                                else {
+                                    <li><a asp-controller="Hosts" asp-action="index" asp-route-id="@token">Dashboard</a></li>
+                                }
                                 @*TODO: Login and Register li has to go align-right*@
                                 @if (user == null)
                                 {
