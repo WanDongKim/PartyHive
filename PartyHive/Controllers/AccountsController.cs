@@ -74,7 +74,7 @@ namespace PartyHive.Controllers
                                 HttpContext.Session.SetString("user", host.FirstName + " " + host.LastName);
                                 HttpContext.Session.SetString("userType", loginViewModel.UserType);
                                 SessionHelper.SetObjectAsJson(HttpContext.Session, "userSessionList", host);
-                                return RedirectToAction("Index", "Home");
+                                return RedirectToAction("Index", "Hosts", new { id = host.Id });
                             }
                             else
                             {

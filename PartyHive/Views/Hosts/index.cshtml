@@ -1,0 +1,83 @@
+﻿@model PartyHive.Models.Host
+@{
+    ViewData["Title"] = "index";
+}
+
+<h2>Hello, @Model.FirstName </h2>
+
+<h4>List of your parties</h4>
+<br/>
+<a asp-action="Add" asp-controller="Parties" class="btn btn-primary">Add a New Party</a>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Party Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Current joined
+                </th>
+                <th>
+                    Active
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Party)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CurrentEnrollment) / @Html.DisplayFor(modelItem => item.MaxEnrollment)
+
+                    </td>
+                    @if (item.IsActivated == true)
+                    {
+                        <td>Active</td>
+                    }
+                    else
+                    {
+                        <td>Inactive</td>
+                    }
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Parties">Edit Party</a>  |
+                        @if (item.IsActivated == true)
+                        {
+                            <a asp-action="Inactive" asp-route-id="@item.Id" asp-controller="Parties">Inactive this Activity</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Inactive" asp-route-id="@item.Id" asp-controller="Parties">Active this Activity</a>
+
+                        }
+
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+

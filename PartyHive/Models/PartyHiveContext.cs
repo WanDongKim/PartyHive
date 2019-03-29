@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -19,6 +20,7 @@ namespace PartyHive.Models
         public virtual DbSet<Host> Host { get; set; }
         public virtual DbSet<Party> Party { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public Task Include { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

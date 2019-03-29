@@ -22,9 +22,9 @@
 
     <div class="row">
         
-        <div class="dorne-add-listings-btn" style="padding-top: 98px;">
+        @*<div class="dorne-add-listings-btn" style="padding-top: 98px;">
             <a href="#" class="btn dorne-btn">Add a New Party</a>
-        </div>
+        </div>*@
         <div class="contact-form contact-form-widget mt-50">
             <h1><b>Edit a Party</b></h1>
             <form asp-action="Edit">
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-12">
                         <label asp-for="Price" class="control-label"></label>
-                        <textarea asp-for="Price" class="form-control"></textarea>
+                        <input asp-for="Price" class="form-control" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <div class="col-12">
@@ -68,7 +68,7 @@
                     <input type="hidden" asp-for="Id" />
 
                     <div class="col-12">
-                        <button type="submit" class="btn dorne-btn">Send</button>
+                        <button type="submit" class="btn dorne-btn">Edit this party</button>
                     </div>
                 </div>
             </form>
