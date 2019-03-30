@@ -91,7 +91,9 @@
                         </div>
 
                         <div class="overview-content mt-50" id="overview">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum. Vivamus accumsan consequat ligula non volutpat. Sed mollis orci non cursus vestibulum. Pellentesque vitae est a augue laoreet venenatis sed eu felis. Sed cursus magna nec turpis ullamcorper, eget rutrum felis egestas. Nunc odio ex, fermentum efficitur nunc vitae, efficitur hendrerit diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum.</p>
+                            <p>
+                                <% @Model.Description %>
+                            </p>
                             <div class="row mt-5">
                                 <div class="col-6">
                                     <label class="custom-control custom-checkbox mb-3">
@@ -262,7 +264,7 @@
                             <img src="~/img/clients-img/1.jpg" alt="">
                             <div class="authors-name">
                                 <a href="#">James Smith</a>
-                                <p>The Author</p>
+                                <p><% @Model.Name %></p>
                             </div>
                         </div>
 
