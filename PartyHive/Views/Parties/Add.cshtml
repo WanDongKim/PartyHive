@@ -43,6 +43,11 @@
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <div class="col-12">
+                        <label asp-for="DateTime" class="control-label"></label>
+                        <input type="datetime" asp-for="DateTime" class="form-control" />
+                        <span asp-validation-for="DateTime" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
                         <label asp-for="TargetAudience" class="control-label"></label>
                         <input asp-for="TargetAudience" class="form-control" />
                         <span asp-validation-for="TargetAudience" class="text-danger"></span>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -20,13 +19,11 @@ namespace PartyHive.Models
         public virtual DbSet<Host> Host { get; set; }
         public virtual DbSet<Party> Party { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public Task Include { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
             }
         }
 
@@ -104,6 +101,8 @@ namespace PartyHive.Models
                 entity.Property(e => e.CurrentEnrollment)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.DateTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Description)
                     .IsRequired()

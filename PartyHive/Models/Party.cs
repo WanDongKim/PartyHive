@@ -20,6 +20,7 @@ namespace PartyHive.Models
         public bool IsActivated { get; set; }
         public int HostId { get; set; }
         public string Name { get; set; }
+        public DateTime? DateTime { get; set; }
 
         public Host Host { get; set; }
         public ICollection<Booking> Booking { get; set; }

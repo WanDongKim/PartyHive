@@ -76,8 +76,8 @@
                     <div class="single-listing-content">
 
                         <div class="listing-title">
-                            <h4>Jimmy's Netflix Marathon</h4>
-                            <h6>88 Scott St.</h6>
+                            <h4>@Model.Name</h4>
+                            <h6>@Model.Address</h6>
                         </div>
 
                         <div class="single-listing-nav">
@@ -91,9 +91,7 @@
                         </div>
 
                         <div class="overview-content mt-50" id="overview">
-                            <p>
-                                <% @Model.Description %>
-                            </p>
+                            <p>@Model.Description</p>
                             <div class="row mt-5">
                                 <div class="col-6">
                                     <label class="custom-control custom-checkbox mb-3">
@@ -264,7 +262,7 @@
                             <img src="~/img/clients-img/1.jpg" alt="">
                             <div class="authors-name">
                                 <a href="#">James Smith</a>
-                                <p><% @Model.Name %></p>
+                                <p>@Model.Name</p>
                             </div>
                         </div>
 

@@ -32,7 +32,7 @@ namespace PartyHive.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add([Bind("Id, Name, Description, Price, TargetAudience, Address, MaxEnrollment")]Party party)
+        public async Task<IActionResult> Add([Bind("Id, Name, Description, DateTime, Price, TargetAudience, Address, MaxEnrollment")]Party party)
         {
             party.HostId = (int)HttpContext.Session.GetInt32("token");
             Host host = _context.Host.Include(c => c.Party).Where(m => m.Id.Equals(party.HostId)).FirstOrDefault();
@@ -65,7 +65,7 @@ namespace PartyHive.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Price, Address, Description, MaxEnrollment, IsActivated, Name")]Party editedParty)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Price, Address, DateTime, Description, MaxEnrollment, IsActivated, Name")]Party editedParty)
         {
             var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
 
