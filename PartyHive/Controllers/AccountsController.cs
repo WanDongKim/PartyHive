@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PartyHive.Helper;
 using PartyHive.Models;
 using PartyHive.Models.Account;
@@ -52,8 +53,8 @@ namespace PartyHive.Controllers
                                 HttpContext.Session.SetInt32("token", (int)user.Id);
                                 HttpContext.Session.SetString("user", user.FirstName + " " + user.LastName);
                                 HttpContext.Session.SetString("userType", loginViewModel.UserType);
-                                SessionHelper.SetObjectAsJson(HttpContext.Session, "userSessionList", user);
-                                return RedirectToAction("Index", "Home");
+                                //SessionHelper.SetObjectAsJson(HttpContext.Session, "userSessionList", user);
+                                return RedirectToAction("Index", "Home",user);
                             }
                             else
                             {
@@ -73,7 +74,7 @@ namespace PartyHive.Controllers
                                 HttpContext.Session.SetInt32("token", (int)host.Id);
                                 HttpContext.Session.SetString("user", host.FirstName + " " + host.LastName);
                                 HttpContext.Session.SetString("userType", loginViewModel.UserType);
-                                SessionHelper.SetObjectAsJson(HttpContext.Session, "userSessionList", host);
+                                //SessionHelper.SetObjectAsJson(HttpContext.Session, "userSessionList", host);
                                 return RedirectToAction("Index", "Hosts", new { id = host.Id });
                             }
                             else
@@ -177,11 +178,11 @@ namespace PartyHive.Controllers
             {
                 if(type == "Host")
                 {
-                    return _context.Host.SingleOrDefault(h => h.Email.Equals(email));
+                    return _context.Host.Include(c => c.Party).SingleOrDefault(h => h.Email.Equals(email));
                 }
                 else
                 {
-                    return _context.User.SingleOrDefault(u => u.Email.Equals(email));
+                    return _context.User.Include(c => c.Comment).SingleOrDefault(u => u.Email.Equals(email));
                 }
             }catch(Exception e)
             {

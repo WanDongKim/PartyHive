@@ -20,7 +20,7 @@ namespace PartyHive.Controllers
         public IActionResult Index()
         {
             // print only active parties
-            IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Where(x => x.IsActivated.Equals(true)).ToArray();
+            IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Include(c => c.Comment).Where(x => x.IsActivated.Equals(true)).ToArray();
             return View(allParties);
         }
 
@@ -67,11 +67,12 @@ namespace PartyHive.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id, Price, Address, DateTime, Description, MaxEnrollment, IsActivated, Name")]Party editedParty)
         {
-            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
+            var party = await _context.Party.Include(c => c.Host).Include(c => c.Comment).FirstOrDefaultAsync(m => m.Id.Equals(id));
 
             party.Price = editedParty.Price;
             party.Address = editedParty.Address;
             party.Description = editedParty.Description;
+            party.DateTime = editedParty.DateTime;
             party.MaxEnrollment = editedParty.MaxEnrollment;
             party.IsActivated = editedParty.IsActivated;
             party.Name = editedParty.Name;
@@ -93,7 +94,7 @@ namespace PartyHive.Controllers
                     throw;
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Hosts");
         }
         // parties/detail/
         public async Task<IActionResult> Details(int? id)
@@ -104,6 +105,7 @@ namespace PartyHive.Controllers
             }
             var party = await _context.Party
                                     .Include(c => c.Host)
+                                    .Include(c => c.Comment)
                                     .Where(x => x.Id.Equals(id))
                                     .FirstOrDefaultAsync();
             if (party == null)
@@ -119,7 +121,7 @@ namespace PartyHive.Controllers
             {
                 NotFound();
             }
-            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
+            var party = await _context.Party.Include(c => c.Host).Include(c => c.Comment).FirstOrDefaultAsync(m => m.Id.Equals(id));
 
             if(party == null)
             {
@@ -136,7 +138,7 @@ namespace PartyHive.Controllers
                 NotFound();
             }
 
-            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
+            var party = await _context.Party.Include(c => c.Host).Include(c => c.Comment).FirstOrDefaultAsync(m => m.Id.Equals(id));
 
 
             if (party == null)

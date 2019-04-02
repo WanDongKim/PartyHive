@@ -8,6 +8,7 @@ namespace PartyHive.Models
         public Party()
         {
             Booking = new HashSet<Booking>();
+            Comment = new HashSet<Comment>();
         }
 
         public int Id { get; set; }
@@ -24,5 +25,6 @@ namespace PartyHive.Models
 
         public Host Host { get; set; }
         public ICollection<Booking> Booking { get; set; }
+        public ICollection<Comment> Comment { get; set; }
     }
 }

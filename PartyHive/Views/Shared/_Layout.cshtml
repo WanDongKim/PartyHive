@@ -13,10 +13,16 @@
     <title>@ViewData["Title"] - PartyHive</title>
     <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,600,700|Frank+Ruhl+Libre:700" rel="stylesheet">
     <link rel="stylesheet" href="~/css/dist/css/style.css">
+    <link href="~/style.css" rel="stylesheet">
+    <link href="~/css/responsive/responsive.css" rel="stylesheet">
+
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/style.css" rel="stylesheet">
+        <link href="~/css/responsive/responsive.css" rel="stylesheet">
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -31,34 +37,36 @@
         <div class="container-fluid h-100">
             <div class="row h-100">
                 <div class="col-12 h-100">
-                    <nav class="h-100 navbar navbar-expand-lg">
-                        <a class="navbar-brand " asp-controller="Home" asp-action="Index" style="padding:10px;"><img class="d-inline-block align-top" src="~/img/logo.png" width="30" height="30" /></a>
+                    <nav class="h-100 navbar navbar-lg"  style="background-color:rgba(67, 25, 161,0.8);" >
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
                         </button>
                         <!-- Nav -->
                         <div class="navbar-collapse collapse">
-                            <ul class="nav nav-pills nav-justified" style="padding-top:63px; display: block;
-    margin-right: 50px;">
-                                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <ul class="nav nav-pills nav-justified" style="display: block; ">
+                                <li><a class="nav-link" asp-controller="Home" asp-action="Index" style="color:white;">Home</a></li>
                                 @if (userType != "Host")
                                 {
-                                    <li><a asp-controller="Parties" asp-action="Index">Party</a></li>
+                                    <li><a class="nav-link "  asp-controller="Parties" asp-action="Index" style="color:white;">Party</a></li>
 
-                                }
-                                else {
-                                    <li><a asp-controller="Hosts" asp-action="index" asp-route-id="@token">Dashboard</a></li>
-                                }
-                                @*TODO: Login and Register li has to go align-right*@
-                                @if (user == null)
-                                {
-                                    <li><a class="nav-link active" asp-controller="Accounts" asp-action="Login">Login</a></li>
-                                    <li><a class="nav-link active" asp-area="" asp-controller="Accounts" asp-action="Register">Register </a></li>
                                 }
                                 else
                                 {
-                                    <li><a class="nav-link active" asp-area="">Welcome, @user </a></li>
-                                    <li><a class="nav-link active" asp-area="" asp-controller="Accounts" asp-action="Logout">Logout</a></li>
+                                    <li><a class="nav-link " asp-controller="Hosts" asp-action="index" asp-route-id="@token" style="color:white;">Dashboard</a></li>
+                                }
+                                <li>
+                                    <a class="navbar-link " asp-controller="Home" asp-action="Index" ><img class="d-inline-block align-top" src="~/img/logo.png" width="30" height="30" /></a>
+                                </li>
+                                @*TODO: Login and Register li has to go align-right*@
+                                @if (user == null)
+                                {
+                                    <li><a class="nav-link " asp-controller="Accounts" asp-action="Login" style="color:white;">Login</a></li>
+                                    <li><a class="nav-link " asp-area="" asp-controller="Accounts" asp-action="Register" style="color:white;">Register </a></li>
+                                }
+                                else
+                                {
+                                    <li><a class="nav-link " asp-area="" style="color:white;">Welcome, @user </a></li>
+                                    <li><a class="nav-link " asp-area="" asp-controller="Accounts" asp-action="Logout" style="color:white;">Logout</a></li>
                                 }
                             </ul>
                         </div>
@@ -68,20 +76,48 @@
         </div>
     </header>
     <partial name="_CookieConsentPartial" />
-
-    <div class="container body-content">
+    
+    <div class="container body-content" style="padding:10rem 0;">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - PartyHive</p>
-        </footer>
     </div>
-
+    <footer class="dorne-footer-area">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 d-md-flex align-items-center justify-content-between">
+                    <div class="footer-text">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved by Party Hive
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                    <div class="footer-social-btns">
+                        <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
+                        <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
+                        <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/css/dist/js/main.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <!-- jQuery-2.2.4 js -->
+        <script src="~/js/jquery/jquery-2.2.4.min.js"></script>
+        <!-- Popper js -->
+        <script src="~/js/bootstrap/popper.min.js"></script>
+        <!-- Bootstrap-4 js -->
+        <script src="~/js/bootstrap/bootstrap.min.js"></script>
+        <!-- All Plugins js -->
+        <script src="~/js/others/plugins.js"></script>
+        <!-- Active JS -->
+        <script src="~/js/active.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
@@ -90,6 +126,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
         </script>
+
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"

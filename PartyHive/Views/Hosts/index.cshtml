@@ -26,6 +26,9 @@
                     Current joined
                 </th>
                 <th>
+                    Date Time
+                </th>
+                <th>
                     Active
                 </th>
                 <th></th>
@@ -34,45 +37,50 @@
         <tbody>
             @foreach (var item in Model.Party)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
 
-                    </td>
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CurrentEnrollment) / @Html.DisplayFor(modelItem => item.MaxEnrollment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentEnrollment) / @Html.DisplayFor(modelItem => item.MaxEnrollment)
 
-                    </td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+
+
+                </td>
+                @if (item.IsActivated == true)
+                {
+                    <td>Active</td>
+                }
+                else
+                {
+                    <td>Inactive</td>
+                }
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Parties">Edit Party</a>  |
                     @if (item.IsActivated == true)
                     {
-                        <td>Active</td>
+                        <a asp-action="Inactive" asp-route-id="@item.Id" asp-controller="Parties">Inactive this Activity</a>
                     }
                     else
                     {
-                        <td>Inactive</td>
+                        <a asp-action="Inactive" asp-route-id="@item.Id" asp-controller="Parties">Active this Activity</a>
+
                     }
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Parties">Edit Party</a>  |
-                        @if (item.IsActivated == true)
-                        {
-                            <a asp-action="Inactive" asp-route-id="@item.Id" asp-controller="Parties">Inactive this Activity</a>
-                        }
-                        else
-                        {
-                            <a asp-action="Inactive" asp-route-id="@item.Id" asp-controller="Parties">Active this Activity</a>
 
-                        }
-
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
             }
         </tbody>
