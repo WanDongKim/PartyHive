@@ -1,32 +1,23 @@
 ﻿@model PartyHive.Models.Party
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
-    ViewData["Title"] = "details";
+    ViewData["Title"] = "Details";
+
+    var userType = "";
+    var user = "";
+    var sessionToken = 0;
+    PartyHiveContext p = new PartyHiveContext();
+
+    if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
+    {
+        sessionToken = (int)HttpContextAccessor.HttpContext.Session.GetInt32("token");
+        user = HttpContextAccessor.HttpContext.Session.GetString("user");
+        userType = HttpContextAccessor.HttpContext.Session.GetString("userType");
+    }
 }
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <!-- Title -->
-    <title>Dorne - Directory &amp; Listing Template | Single Listing</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="~/img/core-img/favicon.ico">
-
-    <!-- Core Stylesheet -->
-    <link href="~/style.css" rel="stylesheet">
-
-    <!-- Responsive CSS -->
-    <link href="~/css/responsive/responsive.css" rel="stylesheet">
-
-</head>
-
-<body>
     <!-- Preloader -->
     <div id="preloader">
         <div class="dorne-load"></div>
@@ -76,8 +67,8 @@
                     <div class="single-listing-content">
 
                         <div class="listing-title">
-                            <h4>Jimmy's Netflix Marathon</h4>
-                            <h6>88 Scott St.</h6>
+                            <h4>@Model.Name</h4>
+                            <h6>@Model.Address</h6>
                         </div>
 
                         <div class="single-listing-nav">
@@ -85,15 +76,12 @@
                                 <ul id="listingNav">
                                     <li class="active"><a href="#overview">Overview</a></li>
                                     <li><a href="#review">Reviews</a></li>
-                                    <li><a href="#lomap">Location on map</a></li>
                                 </ul>
                             </nav>
                         </div>
 
                         <div class="overview-content mt-50" id="overview">
-                            <p>
-                                <% @Model.Description %>
-                            </p>
+                            <p>@Model.Description</p>
                             <div class="row mt-5">
                                 <div class="col-6">
                                     <label class="custom-control custom-checkbox mb-3">
@@ -154,62 +142,13 @@
                             </div>
                         </div>
 
-
                         <div class="listing-reviews-area mt-100" id="review">
-                            <h4>reviews</h4>
-                            <div class="single-review-area">
-                                <div class="reviewer-meta d-flex align-items-center">
-                                    <img src="~/img/clients-img/1.jpg" alt="">
-                                    <div class="reviewer-content">
-                                        <div class="review-title-ratings d-flex justify-content-between">
-                                            <h5>“The best Burger in town”</h5>
-                                            <div class="ratings">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                            </div>
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum. Vivamus accumsan consequat ligula non volutpat.</p>
-                                    </div>
-                                </div>
-                                <div class="reviewer-name">
-                                    <h6>Christinne Smith</h6>
-                                    <p>12 November 2017</p>
-                                </div>
-                            </div>
-                            <div class="single-review-area">
-                                <div class="reviewer-meta d-flex align-items-center">
-                                    <img src="~/img/clients-img/1.jpg" alt="">
-                                    <div class="reviewer-content">
-                                        <div class="review-title-ratings d-flex justify-content-between">
-                                            <h5>“Quality ingredients”</h5>
-                                            <div class="ratings">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-fill.png" alt="">
-                                                <img src="~/img/clients-img/star-unfill.png" alt="">
-                                            </div>
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum. Vivamus accumsan consequat ligula non volutpat.</p>
-                                    </div>
-                                </div>
-                                <div class="reviewer-name">
-                                    <h6>Michael Brown</h6>
-                                    <p>12 November 2017</p>
-                                </div>
-                            </div>
+                            <h4>Leave your comment for this party!</h4>
+                            <partial name="~/Views/Comments/Add.cshtml"
+                                     model="new PartyHive.Models.Comment() { PartyId = Model.Id, UserId = sessionToken };" /><br/><br/>
+                            <partial name="~/Views/Comments/Lists.cshtml" for="Comment" />
+                            <br />
                         </div>
-
-                        <div class="location-on-map mt-50" id="lomap">
-                            <h4>Location on map</h4>
-                            <div class="location-map">
-                                <div id="locationMap"></div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
@@ -241,20 +180,8 @@
                             <h6>Party Hours</h6>
                             <ul class="opening-hours">
                                 <li>
-                                    <p>Thursday</p>
-                                    <p>9 PM - 1 PM</p>
-                                </li>
-                                <li>
-                                    <p>Friday</p>
-                                    <p>9 PM - 1 PM</p>
-                                </li>
-                                <li>
-                                    <p>Saturday</p>
-                                    <p>9 PM - 1 PM</p>
-                                </li>
-                                <li>
-                                    <p>Sunday</p>
-                                    <p>9 PM - 1 PM</p>
+                                    <p><b>@Model.DateTime.Value.ToShortDateString()</b></p>
+                                    <p><b>@Model.DateTime.Value.ToShortTimeString()</b></p>
                                 </li>
                             </ul>
                         </div>
@@ -263,8 +190,11 @@
                         <div class="author-widget mt-50 d-flex align-items-center">
                             <img src="~/img/clients-img/1.jpg" alt="">
                             <div class="authors-name">
-                                <a href="#">James Smith</a>
-                                <p><% @Model.Name %></p>
+                                <p>Host Name: </p>
+                                <p>&emsp;<b>@Model.Host.FirstName, @Model.Host.LastName </b></p>
+                                <p>Party Name: </p>
+                                <p>&emsp;<b>@Model.Name </b></p>
+
                             </div>
                         </div>
 
@@ -294,45 +224,3 @@
             </div>
         </div>
     </section>
-    <!-- ***** Single Listing Area End ***** -->
-    <!-- ****** Footer Area Start ****** -->
-    <footer class="dorne-footer-area">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 d-md-flex align-items-center justify-content-between">
-                    <div class="footer-text">
-                        <p>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p>
-                    </div>
-                    <div class="footer-social-btns">
-                        <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
-                        <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
-                        <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- ****** Footer Area End ****** -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="~/js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="~/js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap-4 js -->
-    <script src="~/js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="~/js/others/plugins.js"></script>
-    <!-- Google Maps js -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk9KNSL1jTv4MY9Pza6w8DJkpI_nHyCnk"></script>
-    <script src="js/google-map/location-map-active.js"></script>
-    <!-- Active JS -->
-    <script src="~/js/active.js"></script>
-</body>
-
-</html>

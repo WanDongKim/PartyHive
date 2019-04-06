@@ -2,95 +2,64 @@
 @{
     ViewData["Title"] = "Edit";
 }
-<head>
 
+<div class="row">
+    <h1><b>Add a Party</b></h1>
 
+    <div class="contact-form contact-form-widget ">
+        <form asp-action="Add" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <!-- Favicon -->
-    <link rel="icon" href="~/img/core-img/favicon.ico">
-
-    <!-- Core Stylesheet -->
-    <link href="~/style.css" rel="stylesheet">
-
-    <!-- Responsive CSS -->
-    <link href="~/css/responsive/responsive.css" rel="stylesheet">
-
-</head>
-
-
-<body>
-
-    <div class="row">
-        <div class="contact-form contact-form-widget mt-50">
-            <h6>Add a Party</h6>
-            <form asp-action="Add" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <div class="col-12">
-                        <label asp-for="Description" class="control-label"></label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <div class="col-12">
-                        <label asp-for="Price" class="control-label"></label>
-                        <input asp-for="Price" class="form-control" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-                    <div class="col-12">
-                        <label asp-for="TargetAudience" class="control-label"></label>
-                        <input asp-for="TargetAudience" class="form-control" />
-                        <span asp-validation-for="TargetAudience" class="text-danger"></span>
-                    </div>
-                    <div class="col-12">
-                        <label asp-for="Address" class="control-label"></label>
-                        <input asp-for="Address" class="form-control" />
-                        <span asp-validation-for="Address" class="text-danger"></span>
-                    </div>
-                    <div class="col-12">
-                        <label asp-for="MaxEnrollment" class="control-label"></label>
-                        <input asp-for="MaxEnrollment" class="form-control" />
-                        <span asp-validation-for="MaxEnrollment" class="text-danger"></span>
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn dorne-btn">Add party</button>
-                    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-            </form>
-        </div>
+                <div class="col-md-6">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" placeholder="$"/>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="DateTime" class="control-label"></label>
+                    <input type="datetime-local" asp-for="DateTime" class="form-control" />
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="TargetAudience" class="control-label"></label>
+                    <input asp-for="TargetAudience" class="form-control" placeholder="early 20's" />
+                    <span asp-validation-for="TargetAudience" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" placeholder="xyz street, Toronto, ON" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="MaxEnrollment" class="control-label"></label>
+                    <input asp-for="MaxEnrollment" class="form-control" placeholder="20" />
+                    <span asp-validation-for="MaxEnrollment" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn dorne-btn">Add party</button>
+                </div>
+                <div class="col-md-2"></div>
+
+            </div>
+        </form>
     </div>
+</div>
 
 
 
 
 
 
-
-
-
-<!-- ***** Breadcumb Area Start ***** -->
-
-<!-- ***** Breadcumb Area End ***** -->
-<!-- ***** Single Listing Area Start ***** -->
-
-<!-- jQuery-2.2.4 js -->
-<script src="~/js/jquery/jquery-2.2.4.min.js"></script>
-<!-- Popper js -->
-<script src="~/js/bootstrap/popper.min.js"></script>
-<!-- Bootstrap-4 js -->
-<script src="~/js/bootstrap/bootstrap.min.js"></script>
-<!-- All Plugins js -->
-<script src="~/js/others/plugins.js"></script>
-<!-- Google Maps js -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk9KNSL1jTv4MY9Pza6w8DJkpI_nHyCnk"></script>
-<script src="~/js/google-map/location-map-active.js"></script>
-<!-- Active JS -->
-<script src="~/js/active.js"></script>
-
-</body>
-<!-- ***** Single Listing Area End ***** -->

@@ -1,0 +1,51 @@
+﻿@model PartyHive.Models.Comment
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "_comment";
+    var sessionToken = @HttpContextAccessor.HttpContext.Session.GetInt32("token");
+
+}
+
+@if (sessionToken != null)
+{
+    <div>
+        <form asp-action="Create" method="post" asp-controller="Comments">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @*//TODO: Input validation is required*@
+            <div class="form-group">
+                <input type="text" asp-for="Title" class="form-control" placeholder="Title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <textarea asp-for="Body" class="form-control" placeholder="Add comment"></textarea>
+                <span asp-validation-for="Body" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="rate">
+                    @*@for (int i = 1; i <= 5; i++)
+                        {
+                            var starClass = "star";
+                            if (Model.Rate == 6 - i)
+                            {
+                                starClass += " active";
+                            }
+                            <span data-value="@(6 - i)" class="@starClass"></span>
+                        }*@
+                </span>
+                @*<input asp-for="Rate" hidden="hidden" />
+                    <small> Rate your experience</small>
+                    <span asp-validation-for="Rate" class="text-danger"></span>*@
+            </div>
+            <input asp-for="PartyId" hidden="hidden" />
+            <span class="text-danger"></span><br />
+            <input type="submit" value="Add comment" class="btn btn-primary" />
+            <input type="reset" value="Reset comment" class="btn btn-danger" />
+        </form>
+    </div>
+}
+else
+{
+    @Html.Label("You must log in to make a comment")
+}
+

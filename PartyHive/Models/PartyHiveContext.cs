@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -17,17 +16,14 @@ namespace PartyHive.Models
         }
 
         public virtual DbSet<Booking> Booking { get; set; }
+        public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Host> Host { get; set; }
         public virtual DbSet<Party> Party { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public Task Include { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,6 +51,38 @@ namespace PartyHive.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_Booking");
+            });
+
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.HasKey(e => new { e.CommentId, e.UserId, e.PartyId });
+
+                entity.Property(e => e.CommentId).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.PartyId).HasColumnName("PartyID");
+
+                entity.Property(e => e.Body)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Party)
+                    .WithMany(p => p.Comment)
+                    .HasForeignKey(d => d.PartyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Party_Comment");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Comment)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_Comment");
             });
 
             modelBuilder.Entity<Host>(entity =>
@@ -104,6 +132,8 @@ namespace PartyHive.Models
                 entity.Property(e => e.CurrentEnrollment)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.DateTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Description)
                     .IsRequired()

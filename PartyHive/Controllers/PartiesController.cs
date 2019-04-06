@@ -11,7 +11,7 @@ namespace PartyHive.Controllers
 {
     public class PartiesController : Controller
     {
-        private readonly PartyHiveContext _context;
+        static PartyHiveContext _context;
         public PartiesController(PartyHiveContext context)
         {
             _context = context;
@@ -20,7 +20,7 @@ namespace PartyHive.Controllers
         public IActionResult Index()
         {
             // print only active parties
-            IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Where(x => x.IsActivated.Equals(true)).ToArray();
+            IEnumerable<Party> allParties = _context.Party.Include(c => c.Host).Include(c => c.Comment).Where(x => x.IsActivated.Equals(true)).ToArray();
             return View(allParties);
         }
 
@@ -32,7 +32,7 @@ namespace PartyHive.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add([Bind("Id, Name, Description, Price, TargetAudience, Address, MaxEnrollment")]Party party)
+        public async Task<IActionResult> Add([Bind("Id, Name, Description, DateTime, Price, TargetAudience, Address, MaxEnrollment")]Party party)
         {
             party.HostId = (int)HttpContext.Session.GetInt32("token");
             Host host = _context.Host.Include(c => c.Party).Where(m => m.Id.Equals(party.HostId)).FirstOrDefault();
@@ -65,13 +65,14 @@ namespace PartyHive.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Price, Address, Description, MaxEnrollment, IsActivated, Name")]Party editedParty)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Price, Address, DateTime, Description, MaxEnrollment, IsActivated, Name")]Party editedParty)
         {
-            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
+            var party = await _context.Party.Include(c => c.Host).Include(c => c.Comment).FirstOrDefaultAsync(m => m.Id.Equals(id));
 
             party.Price = editedParty.Price;
             party.Address = editedParty.Address;
             party.Description = editedParty.Description;
+            party.DateTime = editedParty.DateTime;
             party.MaxEnrollment = editedParty.MaxEnrollment;
             party.IsActivated = editedParty.IsActivated;
             party.Name = editedParty.Name;
@@ -93,7 +94,7 @@ namespace PartyHive.Controllers
                     throw;
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Hosts");
         }
         // parties/detail/
         public async Task<IActionResult> Details(int? id)
@@ -102,8 +103,10 @@ namespace PartyHive.Controllers
             {
                 return NotFound();
             }
+            IEnumerable<Comment> comment =  _context.Comment.Include(c => c.User).Include(c => c.Party).AsEnumerable();
             var party = await _context.Party
                                     .Include(c => c.Host)
+                                    .Include(c => c.Comment)
                                     .Where(x => x.Id.Equals(id))
                                     .FirstOrDefaultAsync();
             if (party == null)
@@ -119,7 +122,7 @@ namespace PartyHive.Controllers
             {
                 NotFound();
             }
-            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
+            var party = await _context.Party.Include(c => c.Host).Include(c => c.Comment).FirstOrDefaultAsync(m => m.Id.Equals(id));
 
             if(party == null)
             {
@@ -136,7 +139,7 @@ namespace PartyHive.Controllers
                 NotFound();
             }
 
-            var party = await _context.Party.Include(c => c.Host).FirstOrDefaultAsync(m => m.Id.Equals(id));
+            var party = await _context.Party.Include(c => c.Host).Include(c => c.Comment).FirstOrDefaultAsync(m => m.Id.Equals(id));
 
 
             if (party == null)
@@ -157,6 +160,10 @@ namespace PartyHive.Controllers
             }
 
             return RedirectToAction("Index","Hosts",new { id=party.HostId });
+        }
+        public static User getUser(Comment c)
+        {
+            return c.User = _context.User.Where(x => x.Id.Equals(c.UserId)).FirstOrDefault();
         }
     }
 }

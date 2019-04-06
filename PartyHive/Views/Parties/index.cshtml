@@ -15,29 +15,8 @@
 
 }
 @* TODO: This page should show the lsit of parties *@
-<h2>Index of Parties</h2>
+<h2>Party List</h2>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <!-- Title -->
-    <title>Dorne - Directory &amp; Listing Template | Listing</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="img/core-img/favicon.ico">
-
-    <!-- Core Stylesheet -->
-    <link href="style.css" rel="stylesheet">
-
-    <!-- Responsive CSS -->
-    <link href="css/responsive/responsive.css" rel="stylesheet">
-
-</head>
-
-<body>
     <!-- Preloader -->
     <div id="preloader">
         <div class="dorne-load"></div>
@@ -74,12 +53,14 @@
                                     <br />
                                     <h5> @Html.DisplayFor(modelItem => item.Name)</h5>
                                     <p>  @Html.DisplayFor(modelItem => item.Description)</p>
+                                    <p><small> Join us at @Html.DisplayFor(modelItem =>  item.DateTime)</small></p>
+
                                 </div>
                                 <div class="feature-favourite">
                                     <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
                             </div>
-                            <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Parties">View Details</a>
+                            <a class="btn btn-block" asp-action="Details" asp-route-id="@item.Id" asp-controller="Parties">View Details</a>
                             @{
                                 if (!user.Equals("") && sessionToken == item.HostId)
                                 {
@@ -95,40 +76,3 @@
         </div>
     </section>
     <!-- ***** Listing Destinations Area End ***** -->
-    <!-- ****** Footer Area Start ****** -->
-    <footer class="dorne-footer-area">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 d-md-flex align-items-center justify-content-between">
-                    <div class="footer-text">
-                        <p>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p>
-                    </div>
-                    <div class="footer-social-btns">
-                        <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
-                        <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
-                        <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- ****** Footer Area End ****** -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap-4 js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/others/plugins.js"></script>
-    <!-- Active JS -->
-    <script src="js/active.js"></script>
-</body>
-
