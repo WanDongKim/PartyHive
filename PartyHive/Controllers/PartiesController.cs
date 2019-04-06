@@ -11,7 +11,7 @@ namespace PartyHive.Controllers
 {
     public class PartiesController : Controller
     {
-        private readonly PartyHiveContext _context;
+        static PartyHiveContext _context;
         public PartiesController(PartyHiveContext context)
         {
             _context = context;
@@ -103,6 +103,7 @@ namespace PartyHive.Controllers
             {
                 return NotFound();
             }
+            IEnumerable<Comment> comment =  _context.Comment.Include(c => c.User).Include(c => c.Party).AsEnumerable();
             var party = await _context.Party
                                     .Include(c => c.Host)
                                     .Include(c => c.Comment)
@@ -159,6 +160,10 @@ namespace PartyHive.Controllers
             }
 
             return RedirectToAction("Index","Hosts",new { id=party.HostId });
+        }
+        public static User getUser(Comment c)
+        {
+            return c.User = _context.User.Where(x => x.Id.Equals(c.UserId)).FirstOrDefault();
         }
     }
 }

@@ -7,6 +7,8 @@
     var userType = "";
     var user = "";
     var sessionToken = 0;
+    PartyHiveContext p = new PartyHiveContext();
+
     if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
     {
         sessionToken = (int)HttpContextAccessor.HttpContext.Session.GetInt32("token");
@@ -74,7 +76,6 @@
                                 <ul id="listingNav">
                                     <li class="active"><a href="#overview">Overview</a></li>
                                     <li><a href="#review">Reviews</a></li>
-                                    <li><a href="#lomap">Location on map</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -143,92 +144,11 @@
 
                         <div class="listing-reviews-area mt-100" id="review">
                             <h4>Leave your comment for this party!</h4>
-                            <partial name="~/Views/Parties/_comment.cshtml" 
-                                     model="new PartyHive.Models.Comment() {
-                                                                            PartyId = Model.Id,
-                                                                            UserId = sessionToken
-                                                                        }" />
+                            <partial name="~/Views/Comments/Add.cshtml"
+                                     model="new PartyHive.Models.Comment() { PartyId = Model.Id, UserId = sessionToken };" /><br/><br/>
+                            <partial name="~/Views/Comments/Lists.cshtml" for="Comment" />
                             <br />
-                            @if (Model.Comment.Any())
-                            {
-                                foreach (var item in Model.Comment)
-                                    {
-                            <div class="single-review-area">
-                                <div class="reviewer-meta d-flex align-items-center">
-                                    <img src="~/img/clients-img/1.jpg" alt="">
-                                    <div class="reviewer-content">
-                                        <div class="review-title-ratings d-flex justify-content-between">
-                                            <h5>@Html.DisplayFor(modelItem => item.Title)</h5><br />
-                                        <!-- TODO: Rating? -->
-                                        </div>
-                                        <p>@Html.DisplayFor(modelItem => item.Body)</p>
-                                    </div>
-                                </div>
-                                <div class="reviewer-name">
-                                    <h6></h6>
-                                    <p>12 November 2017</p>
-                                </div>
-                            </div>
-                                }
-
-                            }
                         </div>
-
-                        @*<div class="listing-reviews-area mt-100" id="review">
-                                <h4>reviews</h4>
-                                <div class="single-review-area">
-                                    <div class="reviewer-meta d-flex align-items-center">
-                                        <img src="~/img/clients-img/1.jpg" alt="">
-                                        <div class="reviewer-content">
-                                            <div class="review-title-ratings d-flex justify-content-between">
-                                                <h5>“The best Burger in town”</h5>
-                                                <div class="ratings">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                </div>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum. Vivamus accumsan consequat ligula non volutpat.</p>
-                                        </div>
-                                    </div>
-                                    <div class="reviewer-name">
-                                        <h6>Christinne Smith</h6>
-                                        <p>12 November 2017</p>
-                                    </div>
-                                </div>
-                                <div class="single-review-area">
-                                    <div class="reviewer-meta d-flex align-items-center">
-                                        <img src="~/img/clients-img/1.jpg" alt="">
-                                        <div class="reviewer-content">
-                                            <div class="review-title-ratings d-flex justify-content-between">
-                                                <h5>“Quality ingredients”</h5>
-                                                <div class="ratings">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-fill.png" alt="">
-                                                    <img src="~/img/clients-img/star-unfill.png" alt="">
-                                                </div>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum. Vivamus accumsan consequat ligula non volutpat.</p>
-                                        </div>
-                                    </div>
-                                    <div class="reviewer-name">
-                                        <h6>Michael Brown</h6>
-                                        <p>12 November 2017</p>
-                                    </div>
-                                </div>
-                            </div>*@
-
-                        <div class="location-on-map mt-50" id="lomap">
-                            <h4>Location on map</h4>
-                            <div class="location-map">
-                                <div id="locationMap"></div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
@@ -260,20 +180,8 @@
                             <h6>Party Hours</h6>
                             <ul class="opening-hours">
                                 <li>
-                                    <p>Thursday</p>
-                                    <p>9 PM - 1 PM</p>
-                                </li>
-                                <li>
-                                    <p>Friday</p>
-                                    <p>9 PM - 1 PM</p>
-                                </li>
-                                <li>
-                                    <p>Saturday</p>
-                                    <p>9 PM - 1 PM</p>
-                                </li>
-                                <li>
-                                    <p>Sunday</p>
-                                    <p>9 PM - 1 PM</p>
+                                    <p><b>@Model.DateTime.Value.ToShortDateString()</b></p>
+                                    <p><b>@Model.DateTime.Value.ToShortTimeString()</b></p>
                                 </li>
                             </ul>
                         </div>
@@ -282,8 +190,11 @@
                         <div class="author-widget mt-50 d-flex align-items-center">
                             <img src="~/img/clients-img/1.jpg" alt="">
                             <div class="authors-name">
-                                <a href="#">James Smith</a>
-                                <p>@Model.Name</p>
+                                <p>Host Name: </p>
+                                <p>&emsp;<b>@Model.Host.FirstName, @Model.Host.LastName </b></p>
+                                <p>Party Name: </p>
+                                <p>&emsp;<b>@Model.Name </b></p>
+
                             </div>
                         </div>
 

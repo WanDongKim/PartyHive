@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PartyHive.Models;
 
 namespace PartyHive.Controllers
@@ -25,7 +26,7 @@ namespace PartyHive.Controllers
                 {
                     int id = (int)HttpContext.Session.GetInt32("token");
                     newComment.UserId = id;
-                    newComment.User = _context.User.Where(x => x.Id.Equals(id)).FirstOrDefault();
+                    newComment.User = _context.User.Include(c => c.Comment).Where(x => x.Id.Equals(id)).FirstOrDefault();
                     newComment.Party = _context.Party.Where(x => x.Id.Equals(newComment.PartyId)).FirstOrDefault();
                 }
                 _context.Add(newComment);
@@ -34,5 +35,6 @@ namespace PartyHive.Controllers
             }
             return View(newComment);
         }
+
     }
 }
