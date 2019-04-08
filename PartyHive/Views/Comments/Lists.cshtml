@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PartyHive.Models.Comment>
+
+
+
+    @foreach (var item in Model)
+    {
+        PartyHive.Controllers.PartiesController.getUser(item);
+        <div class="single-review-area">
+            <div class="reviewer-meta d-flex align-items-center">
+                <img src="~/img/clients-img/1.jpg" alt="">
+                <div class="reviewer-content">
+                    <div class="review-title-ratings d-flex justify-content-between">
+                        <h5>@Html.DisplayFor(modelItem => item.Title)</h5><br />
+                        <!--TODO: Rating?-->
+                    </div>
+                    <p>@Html.DisplayFor(modelItem => item.Body)</p>
+                </div>
+            </div>
+            <div class="reviewer-name">
+                <h6>By 
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                    (@Html.DisplayFor(modelItem => item.User.Email))
+                </h6>
+            </div>
+        </div>
+    }

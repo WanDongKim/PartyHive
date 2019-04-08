@@ -1,0 +1,66 @@
+﻿@model  PartyHive.Models.Party
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div class="row">
+    <h1><b>Edit a Party</b></h1>
+
+    <div class="contact-form contact-form-widget ">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="DateTime" class="control-label"></label>
+                    <input type="datetime-local" asp-for="DateTime" class="form-control" />
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="MaxEnrollment" class="control-label"></label>
+                    <input asp-for="MaxEnrollment" class="form-control" />
+                    <span asp-validation-for="MaxEnrollment" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <br/>
+                    <label class="control-label"><i>Hosted by @Model.Host.FirstName @Model.Host.LastName</i></label>
+
+                    <span asp-validation-for="IsActivated" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="col-md-6">
+                    <button type="submit" class="btn dorne-btn">Edit this party</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
