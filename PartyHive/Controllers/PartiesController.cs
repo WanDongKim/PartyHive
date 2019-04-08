@@ -94,7 +94,7 @@ namespace PartyHive.Controllers
                     throw;
                 }
             }
-            return RedirectToAction("Index", "Hosts");
+            return RedirectToAction("Index", "Hosts", new { id = party.HostId });
         }
         // parties/detail/
         public async Task<IActionResult> Details(int? id)
