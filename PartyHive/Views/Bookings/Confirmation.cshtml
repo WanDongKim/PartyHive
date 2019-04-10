@@ -1,0 +1,15 @@
+﻿@model PartyHive.Models.Booking
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<h1>Confirmation</h1><br/>
+
+<h2>Congratulations! Your booking has successfully proceeded. Let's meet at the party!!!</h2>
+
+<p>Number of Guest: @Model.HowManyGuest people</p>
+
+<p>Party Name: @Model.Party.Name</p>
+
+<a class="btn btn-success" asp-controller="Bookings" asp-action="">Go your booking</a>
+<a class="btn btn-danger" asp-controller="Parties" asp-action="details">Go back</a>
