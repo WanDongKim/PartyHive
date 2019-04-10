@@ -55,5 +55,12 @@ namespace PartyHive.Controllers
 
             return View(booking);
         }
+
+        public IActionResult MyBookings(int id)
+        {
+            var bookings = _context.Booking.Include(c => c.Party).Include(c => c.User).Where(x => x.UserId.Equals(id)).ToList();
+
+            return View(bookings);
+        }
     }
 }

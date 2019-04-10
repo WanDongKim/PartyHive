@@ -12,4 +12,4 @@
 <p>Party Name: @Model.Party.Name</p>
 
 <a class="btn btn-success" asp-controller="Bookings" asp-action="">Go your booking</a>
-<a class="btn btn-danger" asp-controller="Parties" asp-action="details">Go back</a>
+<a class="btn btn-danger" asp-controller="Parties" asp-action="details" asp-route="@Model.PartyId">Go back</a>
