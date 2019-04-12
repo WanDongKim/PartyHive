@@ -59,10 +59,10 @@
                         @Html.DisplayFor(modelItem => item.HowManyGuest)
                     </td>
                     <td>
-                        @*@Html.DisplayFor(modelItem => item.)*@
+                        @Html.ActionLink("Edit this booking", "Edit", "Bookings", new { id = item.UserId }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Delete this booking", "Delete", "Bookings", new { confirm = true, id = item.BookingId, userId = item.UserId, partyId = item.PartyId }, new { onclick = "return confirm('Do you want to cancel this booking?')", @class = "btn btn-danger" })
                     </td>
                     <td>
-                        @*<a asp-action="ActivityRequestDetail" asp-route-id="@item.ActivityId" asp-controller="Activity">Details</a>*@
                     </td>
                 </tr>
             }

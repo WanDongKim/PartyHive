@@ -1,0 +1,25 @@
+﻿@model PartyHive.Models.Booking
+
+@{ 
+    int avaiable = Convert.ToInt32(Model.Party.MaxEnrollment) - Convert.ToInt32(Model.Party.CurrentEnrollment);
+}
+<h1>Edit your booking</h1>
+
+<h4>Now, you have booking with @Model.HowManyGuest people</h4>
+<h4>Currently, @avaiable space left</h4>
+
+<form method="post" asp-action="Edit" asp-controller="Bookings">
+
+    <select class="custom-select" id="catagories" asp-for="HowManyGuest">
+        @for (int i = 1; i <= avaiable + Model.HowManyGuest; i++)
+        {
+            <option value="@i">Guest @i</option>
+        }
+    </select>
+    <input hidden="hidden" asp-for="PartyId" value="@Model.PartyId" />
+    <input hidden="hidden" asp-for="UserId" value="@Model.UserId" />
+    <input hidden="hidden" asp-for="BookingId" value="@Model.BookingId" />
+
+    <br /><br />
+    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search pr-2" aria-hidden="true"></i>Change my booking</button>
+</form>

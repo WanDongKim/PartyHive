@@ -3,7 +3,7 @@
     ViewData["Title"] = "Confirmation";
 }
 
-<h1>Confirmation</h1><br/>
+<h1>Confirmation</h1><br />
 
 <h2>Congratulations! Your booking has successfully proceeded. Let's meet at the party!!!</h2>
 
@@ -11,5 +11,6 @@
 
 <p>Party Name: @Model.Party.Name</p>
 
-<a class="btn btn-success" asp-controller="Bookings" asp-action="">Go your booking</a>
-<a class="btn btn-danger" asp-controller="Parties" asp-action="details" asp-route="@Model.PartyId">Go back</a>
+<a class="btn btn-success" asp-controller="Bookings" asp-action="MyBookings" asp-route-id="@Model.UserId">Go your booking</a>
+@Html.ActionLink("Go back", "details", "Parties", new { id = @Model.PartyId }, new { @class = "btn btn-danger" })
+

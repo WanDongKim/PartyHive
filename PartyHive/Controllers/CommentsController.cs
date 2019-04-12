@@ -37,7 +37,7 @@ namespace PartyHive.Controllers
         }
 
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(bool confirm, int id)
         {
             var comment = await _context.Comment.Where(x => x.CommentId.Equals(id)).FirstOrDefaultAsync();
 

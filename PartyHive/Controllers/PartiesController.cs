@@ -165,5 +165,17 @@ namespace PartyHive.Controllers
         {
             return c.User = _context.User.Where(x => x.Id.Equals(c.UserId)).FirstOrDefault();
         }
+        public static bool isJoined(int id, int partyId)
+        {
+            if(_context.Booking.Where(x=>x.UserId.Equals(id)).Where(x=>x.PartyId.Equals(partyId)).FirstOrDefault() != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

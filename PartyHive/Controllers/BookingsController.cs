@@ -62,5 +62,52 @@ namespace PartyHive.Controllers
 
             return View(bookings);
         }
+
+        public async Task<IActionResult> Delete(bool confirm, int id, int userId, int partyId)
+        {
+            var booking = await _context.Booking
+                                                .Where(x => x.BookingId.Equals(id))
+                                                .Where(x=>x.PartyId.Equals(partyId))
+                                                .Where(x=>x.UserId.Equals(userId))
+                                                .FirstOrDefaultAsync();
+            Party party = _context.Party.Where(x => x.Id.Equals(booking.PartyId)).FirstOrDefault();
+            party.CurrentEnrollment = (Convert.ToInt32(party.CurrentEnrollment) - booking.HowManyGuest).ToString();
+            _context.Update(party);
+            _context.Booking.Remove(booking);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("MyBookings", "Bookings", new { id = userId });
+        }
+        public IActionResult Edit(int id)
+        {
+            var booking = _context.Booking.Include(c => c.Party).Include(c => c.User).Where(x => x.UserId.Equals(id)).FirstOrDefault();
+            return View(booking);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("BookingId, UserId, PartyId, HowManyGuest")]Booking booking)
+        {
+            if (booking.UserId == 0)
+            {
+                return NotFound();
+            }
+            if (booking.PartyId == 0)
+            {
+                return NotFound();
+            }
+            Party party = _context.Party.Include(c=>c.Host).Include(c => c.Comment).Include(c => c.Booking).Where(x => x.Id.Equals(booking.PartyId)).FirstOrDefault();
+            Booking PrevBooking = _context.Booking.Include(c=>c.User).Include(c=>c.Party).Where(x => x.BookingId.Equals(booking.BookingId)).FirstOrDefault();
+            int i = (int)PrevBooking.HowManyGuest;
+            PrevBooking.HowManyGuest = booking.HowManyGuest;
+            party.CurrentEnrollment = (Convert.ToInt32(party.CurrentEnrollment) - i + booking.HowManyGuest).ToString();
+            _context.Update(PrevBooking);
+
+            _context.Update(party);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("MyBookings", "Bookings", new { id = booking.UserId });
+        }
+
+
     }
 }

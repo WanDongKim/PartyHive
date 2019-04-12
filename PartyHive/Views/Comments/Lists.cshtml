@@ -38,9 +38,10 @@
                 @Html.DisplayFor(modelItem => item.User.FirstName)
                 @Html.DisplayFor(modelItem => item.User.LastName)
                 (@Html.DisplayFor(modelItem => item.User.Email))
-                @if (item.UserId == sessionToken && userType.Equals("Customer") )
+                @if (item.UserId == sessionToken && userType.Equals("Customer"))
                 {
-                    <a class="btn btn-link" style="color:red;" asp-action="Delete" asp-controller="Comments" asp-route-id="@item.CommentId">Remove</a>
+                    @Html.ActionLink("Remove", "Delete", "Comments", new { confirm = true, id = item.CommentId }, new { onclick = "return confirm('Do you want to cancel this booking?')", @style ="color:red;" })
+                    @*<a class="btn btn-link" style="color:red;" asp-action="Delete" asp-controller="Comments" asp-route-id="@item.CommentId">Remove</a>*@
                 }
 
             </h6>
