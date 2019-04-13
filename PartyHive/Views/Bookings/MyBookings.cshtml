@@ -31,7 +31,7 @@
                 @Html.DisplayNameFor(model => model.HowManyGuest)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Client)*@
+               Total Entrance Fee
             </th>
             <th></th>
         </tr>
@@ -59,10 +59,16 @@
                         @Html.DisplayFor(modelItem => item.HowManyGuest)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit this booking", "Edit", "Bookings", new { id = item.UserId }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink("Delete this booking", "Delete", "Bookings", new { confirm = true, id = item.BookingId, userId = item.UserId, partyId = item.PartyId }, new { onclick = "return confirm('Do you want to cancel this booking?')", @class = "btn btn-danger" })
+                      @{
+
+                          decimal result = Math.Round((decimal)item.Party.Price * (int)item.HowManyGuest, 2);
+
+                       }
+                        $ @result
                     </td>
                     <td>
+                        @Html.ActionLink("Edit this booking", "Edit", "Bookings", new { id = item.UserId }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Delete this booking", "Delete", "Bookings", new { confirm = true, id = item.BookingId, userId = item.UserId, partyId = item.PartyId }, new { onclick = "return confirm('Do you want to cancel this booking?')", @class = "btn btn-danger" })
                     </td>
                 </tr>
             }
