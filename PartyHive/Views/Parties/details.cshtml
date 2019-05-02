@@ -163,15 +163,8 @@
                     <!-- Book A Table Widget -->
                     <div class="book-a-table-widget mt-50">
                         <h6>Book a seat (@Model.CurrentEnrollment / @Model.MaxEnrollment)</h6>
-                        <form action="#" method="get">
-                            <select class="custom-select" id="catagories">
-                                <option selected>Guest 1</option>
-                                <option value="1">Guest 2</option>
-                                <option value="3">Guest 3</option>
-                                <option value="3">Guest 4</option>
-                            </select>
-                            <button type="submit" class="btn dorne-btn bg-white text-dark"><i class="fa fa-search pr-2" aria-hidden="true"></i> Book</button>
-                        </form>
+                        <partial name="~/Views/Bookings/_CreateBookings.cshtml" 
+                                 model="new PartyHive.Models.Booking() { PartyId = Model.Id, UserId = sessionToken }; "/>
                     </div>
 
                     <!-- Opening Hours Widget -->

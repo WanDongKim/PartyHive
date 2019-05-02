@@ -1,27 +1,50 @@
 ﻿@model IEnumerable<PartyHive.Models.Comment>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Details";
 
+    var userType = "";
+    var user = "";
+    var sessionToken = 0;
+    PartyHiveContext p = new PartyHiveContext();
 
-
-    @foreach (var item in Model)
+    if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
     {
-        PartyHive.Controllers.PartiesController.getUser(item);
-        <div class="single-review-area">
-            <div class="reviewer-meta d-flex align-items-center">
-                <img src="~/img/clients-img/1.jpg" alt="">
-                <div class="reviewer-content">
-                    <div class="review-title-ratings d-flex justify-content-between">
-                        <h5>@Html.DisplayFor(modelItem => item.Title)</h5><br />
-                        <!--TODO: Rating?-->
-                    </div>
-                    <p>@Html.DisplayFor(modelItem => item.Body)</p>
+        sessionToken = (int)HttpContextAccessor.HttpContext.Session.GetInt32("token");
+        user = HttpContextAccessor.HttpContext.Session.GetString("user");
+        userType = HttpContextAccessor.HttpContext.Session.GetString("userType");
+    }
+}
+
+
+@foreach (var item in Model)
+{
+    PartyHive.Controllers.PartiesController.getUser(item);
+    <div class="single-review-area">
+        <div class="reviewer-meta d-flex align-items-center">
+            <img src="~/img/clients-img/1.jpg" alt="">
+            <div class="reviewer-content">
+                <div class="review-title-ratings d-flex justify-content-between">
+                    <h5>@Html.DisplayFor(modelItem => item.Title)</h5><br />
+                    <!--TODO: Rating?-->
                 </div>
-            </div>
-            <div class="reviewer-name">
-                <h6>By 
-                    @Html.DisplayFor(modelItem => item.User.FirstName)
-                    @Html.DisplayFor(modelItem => item.User.LastName)
-                    (@Html.DisplayFor(modelItem => item.User.Email))
-                </h6>
+                <p>@Html.DisplayFor(modelItem => item.Body)</p>
             </div>
         </div>
-    }
+        <div class="reviewer-name">
+            <h6>
+                By
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+                @Html.DisplayFor(modelItem => item.User.LastName)
+                (@Html.DisplayFor(modelItem => item.User.Email))
+                @if (item.UserId == sessionToken && userType.Equals("Customer"))
+                {
+                    @Html.ActionLink("Remove", "Delete", "Comments", new { confirm = true, id = item.CommentId }, new { onclick = "return confirm('Do you want to cancel this booking?')", @style ="color:red;" })
+                    @*<a class="btn btn-link" style="color:red;" asp-action="Delete" asp-controller="Comments" asp-route-id="@item.CommentId">Remove</a>*@
+                }
+
+            </h6>
+        </div>
+    </div>
+}

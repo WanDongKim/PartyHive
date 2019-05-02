@@ -1,0 +1,77 @@
+﻿@model IEnumerable<PartyHive.Models.Booking>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "index";
+    var userType = "";
+    var user = "";
+    var sessionToken = 0;
+    if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
+    {
+        sessionToken = (int)HttpContextAccessor.HttpContext.Session.GetInt32("token");
+        user = HttpContextAccessor.HttpContext.Session.GetString("user");
+        userType = HttpContextAccessor.HttpContext.Session.GetString("userType");
+    }
+
+}
+
+<h1>My bookings</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                No
+            </th>
+            <th>
+                Party Name
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.HowManyGuest)
+            </th>
+            <th>
+               Total Entrance Fee
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || Model.Count() == 0)
+        {
+            <tr><td>No activity Yet!</td></tr>
+        }
+        else
+        {
+            var count = 0;
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(++count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Party.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HowManyGuest)
+                    </td>
+                    <td>
+                      @{
+
+                          decimal result = Math.Round((decimal)item.Party.Price * (int)item.HowManyGuest, 2);
+
+                       }
+                        $ @result
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit this booking", "Edit", "Bookings", new { id = item.UserId }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Delete this booking", "Delete", "Bookings", new { confirm = true, id = item.BookingId, userId = item.UserId, partyId = item.PartyId }, new { onclick = "return confirm('Do you want to cancel this booking?')", @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

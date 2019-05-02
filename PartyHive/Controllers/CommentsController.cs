@@ -36,5 +36,15 @@ namespace PartyHive.Controllers
             return View(newComment);
         }
 
+
+        public async Task<IActionResult> Delete(bool confirm, int id)
+        {
+            var comment = await _context.Comment.Where(x => x.CommentId.Equals(id)).FirstOrDefaultAsync();
+
+            _context.Comment.Remove(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Parties", new { id = comment.PartyId });
+        }
     }
 }

@@ -1,0 +1,64 @@
+﻿@model PartyHive.Models.Booking
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var userType = "";
+    var user = "";
+    var sessionToken = 0;
+    if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
+    {
+        sessionToken = (int)HttpContextAccessor.HttpContext.Session.GetInt32("token");
+        user = HttpContextAccessor.HttpContext.Session.GetString("user");
+        userType = HttpContextAccessor.HttpContext.Session.GetString("userType");
+    }
+
+}
+@{ if (user != null && userType.Equals("Customer") && !PartyHive.Controllers.PartiesController.isJoined(sessionToken, Model.PartyId))
+    {
+        <form method="post" asp-action="Confirmation" asp-controller="Bookings">
+            <select class="custom-select" id="catagories" asp-for="HowManyGuest">
+                <option selected value="1">Guest 1</option>
+                <option value="2">Guest 2</option>
+                <option value="3">Guest 3</option>
+                <option value="4">Guest 4</option>
+            </select>
+            <input hidden="hidden" asp-for="PartyId" />
+            <input hidden="hidden" asp-for="UserId" />
+
+            <button type="submit" class="btn dorne-btn bg-white text-dark"><i class="fa fa-search pr-2" aria-hidden="true"></i> Book</button>
+        </form>
+    }
+    else if (user != null && PartyHive.Controllers.PartiesController.isJoined(sessionToken, Model.PartyId) && userType.Equals("Customer"))
+    {
+        <p style="color:yellow;">You have already joined this party </p>
+        <form method="get" asp-action="Confirmation" asp-controller="Bookings">
+            <select class="custom-select" id="catagories" asp-for="HowManyGuest" disabled="disabled">
+                <option selected value="1">Guest 1</option>
+                <option value="2">Guest 2</option>
+                <option value="3">Guest 3</option>
+                <option value="4">Guest 4</option>
+            </select>
+            <input hidden="hidden" asp-for="PartyId" />
+            <input hidden="hidden" asp-for="UserId" />
+            <button type="submit" class="btn dorne-btn bg-white text-dark" disabled="disabled"><i class="fa fa-search pr-2" aria-hidden="true"></i> Book</button>
+
+        </form>
+    }
+
+    else
+    {
+        <p style="color:yellow;">You must log in to reserve your seat</p>
+        <form method="get" asp-action="Confirmation" asp-controller="Bookings">
+            <select class="custom-select" id="catagories" asp-for="HowManyGuest" disabled="disabled">
+                <option selected value="1">Guest 1</option>
+                <option value="2">Guest 2</option>
+                <option value="3">Guest 3</option>
+                <option value="4">Guest 4</option>
+            </select>
+            <input hidden="hidden" asp-for="PartyId" />
+            <input hidden="hidden" asp-for="UserId" />
+            <button type="submit" class="btn dorne-btn bg-white text-dark" disabled="disabled"><i class="fa fa-search pr-2" aria-hidden="true"></i> Book</button>
+
+        </form>
+    }
+}
